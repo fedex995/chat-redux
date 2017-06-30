@@ -14,12 +14,9 @@ export default class AddMessage extends Component{
         messageText: '',
         username: ''
     };
-    handleSend = e => {
-        const text = e.target.value.trim();
-        if (e.which === 13) {
-            this.props.sendMessage(text, this.state.username, new Date().toDateString());
-            this.setState({ messageText: '' })
-        }
+    handleSend = () => {
+        this.props.sendMessage(this.state.messageText, this.state.username, new Date().toDateString());
+        this.setState({ messageText: '' })
     };
     handleMessageChange = e => {
         this.setState({ messageText: e.target.value })

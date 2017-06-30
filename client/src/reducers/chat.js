@@ -3,9 +3,10 @@
  */
 import { SEND_MESSAGE } from '../constants/ActionTypes'
 
-const initialState = [
-    {message: "", date: "", user: ""}
-]
+const initialState = {
+    user: "",
+    messages: []
+}
 
 export default function chat(state = initialState, action) {
     console.log ('asasasa');
