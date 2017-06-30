@@ -2,7 +2,7 @@ import React from 'react'
 import { render } from 'react-dom'
 import { createStore, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
-import reducer from './reducers'
+import reducer from './reducers/index'
 import App from './containers/App'
 import registerServiceWorker from './registerServiceWorker';
 import wsMiddleware from './actions/websocket'
