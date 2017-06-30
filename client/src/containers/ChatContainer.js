@@ -2,13 +2,15 @@
  * Created by federuiz on 6/30/17.
  */
 import React from 'react'
-import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import * as Actions from '../actions/index'
+import * as Actions from '../actions'
+import AddMessage from "../components/AddMessage";
 
-const ChatContainer = ({ messages }) => (
-    <div>chaaaaat</div>
+const ChatContainer = ({ messages, actions }) => (
+    <div>
+        <AddMessage {...actions}/>
+    </div>
 )
 
 ChatContainer.propTypes = {

@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import dateformat from 'dateformat'
 
-class Message extends Component{
+export default class Message extends Component{
 
     static propTypes = {
         message: PropTypes.string.isRequired,

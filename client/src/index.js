@@ -7,8 +7,7 @@ import App from './containers/App'
 import wsMiddleware from './actions/websocket'
 
 const store = createStore(
-    reducer,
-    applyMiddleware(wsMiddleware)
+    reducer
 );
 
 render(
