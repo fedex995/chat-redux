@@ -1,4 +1,4 @@
-const http = require('http')
+const http = require('http');
 const express = require('express')
 const socketIo = require('socket.io')
 const helmet = require('helmet')
