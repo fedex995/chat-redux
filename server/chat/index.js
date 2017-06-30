@@ -1,10 +1,8 @@
 const uuid = require('node-uuid');
-const config = require('../../common/config');
 const logger = require('./../logger');
-const { messageTypes } = config;
 
 function sendChatMessage (io, user, message) {
-  return io.sockets.emit(messageTypes.messageAdded, {
+  return io.sockets.emit('messageAdded', {
     id: uuid.v4(),
     createdAt: Date.now(),
     message,
@@ -13,7 +11,7 @@ function sendChatMessage (io, user, message) {
 }
 
 function sendSystemMessage (io, message) {
-  return io.sockets.emit(messageTypes.messageAdded, {
+  return io.sockets.emit('messageAdded', {
     id: uuid.v4(),
     createdAt: Date.now(),
     message
@@ -21,7 +19,7 @@ function sendSystemMessage (io, message) {
 }
 
 function onUsersRequested (io, socket, data) {
-  const event = messageTypes.usersRequested;
+  const event = 'usersRequested';
   logger.info({ event });
   const sockets = io.sockets.sockets || {};
 
@@ -47,12 +45,12 @@ function addUser (io, socket, user) {
   socket.request.session.user = user;
   socket.request.session.save(); // we have to do this explicitly
 
-  socket.emit(messageTypes.joinRequested, user);
-  return socket.broadcast.emit(messageTypes.userJoined, user)
+  socket.emit('joinRequested', user);
+  return socket.broadcast.emit('userJoined', user)
 }
 
 function onMessageAdded (io, socket, data) {
-  const event = messageTypes.messageAdded;
+  const event = 'messageAdded';
   const user = socket.user;
 
   logger.info({ data, event, user });
@@ -60,7 +58,7 @@ function onMessageAdded (io, socket, data) {
 }
 
 function onTypingStarted (io, socket, data) {
-  const event = messageTypes.userStartedTyping;
+  const event = 'userStartedTyping';
   const user = socket.user;
 
   logger.info({ event, user });
@@ -68,7 +66,7 @@ function onTypingStarted (io, socket, data) {
 }
 
 function onTypingStopped (io, socket, data) {
-  const event = messageTypes.userStoppedTyping;
+  const event = 'userStoppedTyping';
   const user = socket.user;
 
   logger.info({ event, user });
@@ -87,8 +85,8 @@ function onDisconnect (io, socket) {
   // this disconnect might be a refresh, give it a moment to make sure the user isn't coming back
   disconnectedUsers[ user.id ] = setTimeout(() => {
     delete disconnectedUsers[ user.id ];
-    logger.info({ event: messageTypes.userLeft, user });
-    io.sockets.emit(messageTypes.userLeft, { userId: user.id });
+    logger.info({ event: 'userLeft', user });
+    io.sockets.emit('userLeft', { userId: user.id });
     return sendSystemMessage(io, `${user.name} left`)
   }, 2000)
 }
@@ -99,7 +97,7 @@ function handleReconnect (io, socket, user) {
   if (timeoutId) {
     clearTimeout(timeoutId);
     logger.info({ user }, 'User refreshed');
-    return socket.emit(messageTypes.joinRequested, user)
+    return socket.emit('joinRequested', user)
   }
 
   addUser(io, socket, user)
@@ -111,11 +109,11 @@ function addListenersToSocket (io, socket) {
     handleReconnect(io, socket, user)
   }
 
-  socket.on(messageTypes.usersRequested, (data) => onUsersRequested(io, socket, data));
-  socket.on(messageTypes.joinRequested, (data) => onJoinRequested(io, socket, data));
-  socket.on(messageTypes.messageAdded, (data) => onMessageAdded(io, socket, data));
-  socket.on(messageTypes.userStartedTyping, (data) => onTypingStarted(io, socket, data));
-  socket.on(messageTypes.userStoppedTyping, (data) => onTypingStopped(io, socket, data));
+  socket.on('usersRequested', (data) => onUsersRequested(io, socket, data));
+  socket.on('joinRequested', (data) => onJoinRequested(io, socket, data));
+  socket.on('messageAdded', (data) => onMessageAdded(io, socket, data));
+  socket.on('userStartedTyping', (data) => onTypingStarted(io, socket, data));
+  socket.on('userStoppedTyping', (data) => onTypingStopped(io, socket, data));
   socket.on('disconnect', () => onDisconnect(io, socket))
 }
 

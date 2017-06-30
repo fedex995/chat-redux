@@ -1,12 +1,32 @@
-import React from 'react'
+import React, {Component} from 'react'
 import ChatContainer from './ChatContainer'
+import { connect } from 'react-redux'
+import WelcomePage from "../components/WelcomePage";
 
-const App = () => (
-  <div>
-    <h2>Chat</h2>
-    <hr/>
-    <ChatContainer />
-  </div>
-)
+class App extends Component {
 
-export default App
+    constructor(props){
+        super(props);
+        this.currentUser = this.currentUser.bind(this)
+
+    }
+
+    currentUser(){
+        return !!this.props.user
+    }
+
+    render() {
+        return (
+            <div>
+                {this.currentUser() ? <ChatContainer /> : <WelcomePage />}
+            </div>
+        )
+    }
+}
+
+function mapStateToProps(state){
+    return { user: state.user }
+}
+
+export default connect(mapStateToProps)(App)
+

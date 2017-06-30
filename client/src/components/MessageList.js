@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
+import Message from './Message'
 
 export default class MessageList extends Component{
 

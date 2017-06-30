@@ -8,7 +8,6 @@ const initialState = [
 ]
 
 export default function chat(state = initialState, action) {
-    console.log ('asasasa');
     switch (action.type) {
         case SEND_MESSAGE:
             return [
@@ -18,8 +17,7 @@ export default function chat(state = initialState, action) {
                     date: action.date
                 },
                 ...state
-            ]
-
+            ];
         default:
             return state
     }

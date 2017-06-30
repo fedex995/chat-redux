@@ -6,3 +6,11 @@ export const sendMessage = (text, user, date) => ({
     user: user,
     createdAt: date
 });
+
+export function newUser(user){
+    return {
+        type: types.NEW_USER,
+        user: user
+    }
+}
+

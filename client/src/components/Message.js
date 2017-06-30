@@ -6,7 +6,7 @@ export default class Message extends Component{
 
     static propTypes = {
         message: PropTypes.string.isRequired,
-        createAt : PropTypes.any,
+        createAt : PropTypes.instanceOf(Date),
         user : PropTypes.string.isRequired
     };
 
