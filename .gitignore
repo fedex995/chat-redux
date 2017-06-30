@@ -57,3 +57,5 @@ typings/
 # dotenv environment variables file
 .env
 
+/server/package-lock.json
+/client/package-lock.json
