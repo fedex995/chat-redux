@@ -48,11 +48,11 @@ function onError (err) {
   process.exit(1)
 }
 
-server.listen(3000, "localhost", (err) => {
+server.listen(3001, "localhost", (err) => {
   if (err) {
     return onError(err)
   }
-  logger.info(`Server listening on localhost:3000`)
+  logger.info(`Server listening on localhost:3001`)
 });
 
 process.on('uncaughtException', onError);

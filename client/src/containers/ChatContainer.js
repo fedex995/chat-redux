@@ -7,8 +7,6 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import * as Actions from '../actions/index'
 
-
-
 const ChatContainer = ({ messages }) => (
     <div>chaaaaat</div>
 )
